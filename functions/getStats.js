@@ -29,6 +29,8 @@ const getStats = async ({ data }) => {
   });
 
   await saveToJSONFile({ data: numbers });
+
+  return numbers;
 };
 
 const saveToJSONFile = async ({ data }) => {
