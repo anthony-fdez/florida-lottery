@@ -4,8 +4,6 @@ const fs = require("fs").promises;
 const getStats = async ({ data }) => {
   const numbers = getNumberList();
 
-  console.log(data);
-
   data.table.forEach((number) => {
     if (number.E) {
       const indexOfNumberList = numbers.findIndex((e) => e.number === number.E);

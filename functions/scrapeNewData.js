@@ -21,68 +21,140 @@ const scrapeNewData = async () => {
           .each((index, element) => {
             const row = $(element).find("td").text().trim();
 
-            if (row !== "" && row.length === 47) {
-              const splitedRow = row.split("");
+            if (row !== "") {
+              if (
+                row.length === 47 ||
+                row.length === 15 ||
+                row.length === 31 ||
+                row.length === 54
+              ) {
+                if (row.length === 54) {
+                  const splitedRow = row.split("");
 
-              const date1 = splitedRow.slice(0, 8).join("");
-              const period1 = splitedRow[9];
-              const number1 = splitedRow
-                .slice(10, 15)
-                .join("")
-                .split("-")
-                .join("");
+                  const date1 = splitedRow.slice(0, 8).join("");
+                  const period1 = splitedRow[9];
+                  const number1 = splitedRow
+                    .slice(10, 15)
+                    .join("")
+                    .split("-")
+                    .join("");
 
-              const date2 = splitedRow.slice(16, 24).join("");
-              const period2 = splitedRow[25];
-              const number2 = splitedRow
-                .slice(26, 31)
-                .join("")
-                .split("-")
-                .join("");
+                  const date2 = splitedRow.slice(18, 26).join("");
+                  const period2 = splitedRow[27];
+                  const number2 = splitedRow
+                    .slice(28, 33)
+                    .join("")
+                    .split("-")
+                    .join("");
 
-              const date3 = splitedRow.slice(32, 40).join("");
-              const period3 = splitedRow[41];
-              const number3 = splitedRow
-                .slice(42, 47)
-                .join("")
-                .split("-")
-                .join("");
+                  const date3 = splitedRow.slice(36, 44).join("");
+                  const period3 = splitedRow[45];
+                  const number3 = splitedRow
+                    .slice(46, 51)
+                    .join("")
+                    .split("-")
+                    .join("");
 
-              const matchingDate1Index = allDates.findIndex(
-                (e) => e.date === date1
-              );
-              const matchingDate2Index = allDates.findIndex(
-                (e) => e.date === date2
-              );
-              const matchingDate3Index = allDates.findIndex(
-                (e) => e.date === date3
-              );
+                  const matchingDate1Index = allDates.findIndex(
+                    (e) => e.date === date1
+                  );
+                  const matchingDate2Index = allDates.findIndex(
+                    (e) => e.date === date2
+                  );
+                  const matchingDate3Index = allDates.findIndex(
+                    (e) => e.date === date3
+                  );
 
-              if (matchingDate1Index === -1) {
-                allDates.push({
-                  date: date1,
-                  [period1]: number1,
-                });
-              } else {
-                allDates[matchingDate1Index][period1] = number1;
-              }
+                  if (matchingDate1Index === -1) {
+                    allDates.push({
+                      date: date1,
+                      [period1]: number1,
+                    });
+                  } else {
+                    allDates[matchingDate1Index][period1] = number1;
+                  }
 
-              if (matchingDate2Index === -1) {
-                allDates.push({
-                  date: date2,
-                  [period2]: number2,
-                });
-              } else {
-                allDates[matchingDate2Index][period2] = number2;
-              }
+                  if (matchingDate2Index === -1) {
+                    allDates.push({
+                      date: date2,
+                      [period2]: number2,
+                    });
+                  } else {
+                    allDates[matchingDate2Index][period2] = number2;
+                  }
 
-              if (matchingDate3Index === -1) {
-                allDates.push({
-                  date: date3,
-                  [period3]: number3,
-                });
-              } else {
-                allDates[matchingDate3Index][period3] = number3;
+                  if (matchingDate3Index === -1) {
+                    allDates.push({
+                      date: date3,
+                      [period3]: number3,
+                    });
+                  } else {
+                    allDates[matchingDate3Index][period3] = number3;
+                  }
+                } else {
+                  const splitedRow = row.split("");
+
+                  const date1 = splitedRow.slice(0, 8).join("");
+                  const period1 = splitedRow[9];
+                  const number1 = splitedRow
+                    .slice(10, 15)
+                    .join("")
+                    .split("-")
+                    .join("");
+
+                  const date2 = splitedRow.slice(16, 24).join("");
+                  const period2 = splitedRow[25];
+                  const number2 = splitedRow
+                    .slice(26, 31)
+                    .join("")
+                    .split("-")
+                    .join("");
+
+                  const date3 = splitedRow.slice(32, 40).join("");
+                  const period3 = splitedRow[41];
+                  const number3 = splitedRow
+                    .slice(42, 47)
+                    .join("")
+                    .split("-")
+                    .join("");
+
+                  const matchingDate1Index = allDates.findIndex(
+                    (e) => e.date === date1
+                  );
+                  const matchingDate2Index = allDates.findIndex(
+                    (e) => e.date === date2
+                  );
+                  const matchingDate3Index = allDates.findIndex(
+                    (e) => e.date === date3
+                  );
+
+                  if (matchingDate1Index === -1) {
+                    allDates.push({
+                      date: date1,
+                      [period1]: number1,
+                    });
+                  } else {
+                    allDates[matchingDate1Index][period1] = number1;
+                  }
+
+                  if (matchingDate2Index === -1) {
+                    allDates.push({
+                      date: date2,
+                      [period2]: number2,
+                    });
+                  } else {
+                    allDates[matchingDate2Index][period2] = number2;
+                  }
+
+                  if (matchingDate3Index === -1) {
+                    allDates.push({
+                      date: date3,
+                      [period3]: number3,
+                    });
+                  } else {
+                    allDates[matchingDate3Index][period3] = number3;
+                  }
+                }
               }
             }
           });
