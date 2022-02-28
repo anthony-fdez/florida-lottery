@@ -1,20 +1,10 @@
 const loadData = require("./functions/loadData");
+const getStats = require("./functions/getStats");
 
 const main = async () => {
-  const allDates = await loadData();
+  const allDates = await loadData({ update: true });
 
-  console.log(allDates);
-
-  //   let count = 0;
-
-  //   allDates.table.forEach((date, index) => {
-  //     if (!date.E) {
-  //       count = count + 1;
-  //       console.log(date);
-  //     }
-  //   });
-
-  //   console.log(count);
+  getStats({ data: allDates });
 };
 
 main();
