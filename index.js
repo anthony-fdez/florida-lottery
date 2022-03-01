@@ -1,20 +1,23 @@
-const loadData = require("./functions/loadData");
-const getStats = require("./functions/getStats");
-const getAverage = require("./functions/getAverage");
-const getMedian = require("./functions/getMedian");
+const express = require("express");
+const cors = require("cors");
+const http = require("http");
+let bodyParser = require("body-parser");
 
-const main = async () => {
-  const allDates = await loadData({ update: true });
+const app = express();
+const server = http.createServer(app);
 
-  const sortedNumbers = await getStats({ data: allDates });
+app.use(cors());
+app.use(express.json());
 
-  console.log(
-    `Average ammount of times a number has repeated: ${getAverage({
-      data: sortedNumbers,
-    })}`
-  );
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-  console.log(`Data set median: ${getMedian({ data: sortedNumbers })}`);
-};
+const routes = require("./routes/routes");
 
-main();
+app.use(routes);
+
+const port = process.env.PORT || 9000;
+
+server.listen(port, () => {
+  console.log("Server is running in port " + port);
+});
