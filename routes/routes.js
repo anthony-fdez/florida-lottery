@@ -6,19 +6,18 @@ const fs = require("fs");
 
 router.get("/history", async (req, res) => {
   try {
-    try {
-      const lastUpdated = require("../lastUpdated.json");
-      const dateNow = new Date().getTime() / 1000;
-      const difference = dateNow - lastUpdated.lastUpdated;
+    const lastUpdated = returnlastUpdated();
+    const dateNow = new Date().getTime() / 1000;
+    const difference = dateNow - lastUpdated.lastUpdated;
 
-      if (difference > 30) {
-        await updateData({ forceUpdate: true });
-      }
-    } catch {
+    // six hours
+    if (difference > 21600) {
       await updateData({ forceUpdate: true });
+    } else {
+      await updateData({ forceUpdate: false });
     }
 
-    const allDates = require("../allDates.json");
+    const allDates = JSON.parse(fs.readFileSync("allDates.json", "utf-8"));
 
     const paginated = allDates.table.slice(
       req.body.start || 0,
@@ -33,9 +32,20 @@ router.get("/history", async (req, res) => {
 
 router.get("/sorted/up", async (req, res) => {
   try {
-    await updateData();
+    const lastUpdated = returnlastUpdated();
+    const dateNow = new Date().getTime() / 1000;
+    const difference = dateNow - lastUpdated.lastUpdated;
 
-    const sortedNumbers = require("../sortedNumbers.json");
+    // six hours
+    if (difference > 21600) {
+      await updateData({ forceUpdate: true });
+    } else {
+      await updateData({ forceUpdate: false });
+    }
+
+    const sortedNumbers = JSON.parse(
+      fs.readFileSync("sortedNumbers.json", "utf-8")
+    );
 
     const paginated = sortedNumbers.table.slice(
       req.body.start || 0,
@@ -50,9 +60,20 @@ router.get("/sorted/up", async (req, res) => {
 
 router.get("/sorted/down", async (req, res) => {
   try {
-    await updateData();
+    const lastUpdated = returnlastUpdated();
+    const dateNow = new Date().getTime() / 1000;
+    const difference = dateNow - lastUpdated.lastUpdated;
 
-    const sortedNumbers = require("../sortedNumbers.json");
+    // six hours
+    if (difference > 21600) {
+      await updateData({ forceUpdate: true });
+    } else {
+      await updateData({ forceUpdate: false });
+    }
+
+    const sortedNumbers = JSON.parse(
+      fs.readFileSync("sortedNumbers.json", "utf-8")
+    );
 
     const sortedDown = sortedNumbers.table.reverse();
 
