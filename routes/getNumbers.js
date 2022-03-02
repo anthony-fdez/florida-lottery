@@ -63,10 +63,21 @@ module.exports = router.post("/today", async (req, res) => {
           .trim()
           .slice(1, 2);
 
-        res.status(200).send({
-          day: { number: `${day1}${day2}${day3}`, fb: dayFb },
-          night: { number: `${night1}${night2}${night3}`, fb: nightFb },
-        });
+        const timeNow = new Date().getTime() / 1000;
+        const day = returnTimeDay();
+        const night = returnTimeNight();
+
+        if (timeNow > night) {
+          return res.status(200).send({
+            day: { number: `${day1}${day2}${day3}`, fb: dayFb },
+            night: { number: `${night1}${night2}${night3}`, fb: nightFb },
+          });
+        } else if (timeNow > day) {
+          return res.status(200).send({
+            day: { number: `${day1}${day2}${day3}`, fb: dayFb },
+            night: { number: null, fb: null },
+          });
+        }
       });
   } catch (err) {
     console.log(err);
@@ -118,4 +129,26 @@ const returnlastUpdated = () => {
   } catch {
     console.log("failed loading last upadted");
   }
+};
+
+const returnTimeDay = () => {
+  var day = new Date();
+  day.setDate(day.getDate());
+  day.setHours(13);
+  day.setMinutes(30);
+  day.setSeconds(0);
+  day.setMilliseconds(0);
+
+  return new Date(day).getTime() / 1000;
+};
+
+const returnTimeNight = () => {
+  var night = new Date();
+  night.setDate(night.getDate());
+  night.setHours(21);
+  night.setMinutes(45);
+  night.setSeconds(0);
+  night.setMilliseconds(0);
+
+  return new Date(night).getTime() / 1000;
 };
