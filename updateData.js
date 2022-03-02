@@ -4,6 +4,7 @@ const loadData = require("./functions/loadData");
 const getStats = require("./functions/getStats");
 const getAverage = require("./functions/getAverage");
 const getMedian = require("./functions/getMedian");
+
 const getOldestNumbers = require("./functions/getOldestNumbers");
 
 const updateData = async ({ forceUpdate }) => {

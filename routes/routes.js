@@ -4,7 +4,7 @@ const updateData = require("../updateData");
 const router = new express.Router();
 const fs = require("fs");
 
-router.get("/history", async (req, res) => {
+router.post("/history", async (req, res) => {
   try {
     const lastUpdated = returnlastUpdated();
     const dateNow = new Date().getTime() / 1000;
@@ -19,18 +19,24 @@ router.get("/history", async (req, res) => {
 
     const allDates = JSON.parse(fs.readFileSync("allDates.json", "utf-8"));
 
-    const paginated = allDates.table.slice(
+    const sortedDataByDate = allDates.table.sort(function (a, b) {
+      // Turn your strings into dates, and then subtract them
+      // to get a value that is either negative, positive, or zero.
+      return new Date(b.date) - new Date(a.date);
+    });
+
+    const paginated = sortedDataByDate.slice(
       req.body.start || 0,
       req.body.end || 75
     );
 
-    res.status(200).send({ table: paginated, total: sortedNumbers.length });
+    res.status(200).send({ table: paginated, total: sortedDataByDate.length });
   } catch (err) {
     res.status(500).send("error");
   }
 });
 
-router.get("/sorted/up", async (req, res) => {
+router.post("/sorted/up", async (req, res) => {
   try {
     const lastUpdated = returnlastUpdated();
     const dateNow = new Date().getTime() / 1000;
@@ -58,7 +64,7 @@ router.get("/sorted/up", async (req, res) => {
   }
 });
 
-router.get("/sorted/down", async (req, res) => {
+router.post("/sorted/down", async (req, res) => {
   try {
     const lastUpdated = returnlastUpdated();
     const dateNow = new Date().getTime() / 1000;
