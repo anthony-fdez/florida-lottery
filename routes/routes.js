@@ -4,6 +4,10 @@ const updateData = require("../updateData");
 const router = new express.Router();
 const fs = require("fs");
 
+const getNumbers = require("./getNumbers");
+
+router.use(getNumbers);
+
 router.post("/history", async (req, res) => {
   try {
     const lastUpdated = returnlastUpdated();
