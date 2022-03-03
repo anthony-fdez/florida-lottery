@@ -71,6 +71,11 @@ module.exports = router.get("/today", async (req, res) => {
         const day = returnTimeDay();
         const night = returnTimeNight();
 
+        console.log("\n\n\n\n");
+        console.log(timeNow);
+        console.log(day);
+        console.log("\n\n\n\n");
+
         if (timeNow > night) {
           return res.status(200).send({
             day: { number: `${day1}${day2}${day3}`, fb: dayFb },
