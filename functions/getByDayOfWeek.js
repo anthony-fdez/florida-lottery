@@ -1,7 +1,6 @@
 const fs = require("fs").promises;
 
 const getByDayOfWeek = async ({ data }) => {
-  console.log(data);
   const daily = {
     sunday: [],
     monday: [],

@@ -126,6 +126,109 @@ router.post("/sorted/oldest", async (req, res) => {
   }
 });
 
+router.get("/daily/year", async (req, res) => {
+  try {
+    const lastUpdated = returnlastUpdated();
+    const dateNow = new Date().getTime() / 1000;
+    const difference = dateNow - lastUpdated.lastUpdated;
+
+    // six hours
+    if (difference > 21600) {
+      await updateData({ forceUpdate: true });
+    } else {
+      await updateData({ forceUpdate: false });
+    }
+
+    const daily = JSON.parse(fs.readFileSync("day_of_week.json", "utf-8"));
+
+    const sunday = daily.sunday.slice(0, 56);
+    const monday = daily.monday.slice(0, 56);
+    const tuesday = daily.tuesday.slice(0, 56);
+    const wednesday = daily.wednesday.slice(0, 56);
+    const thursday = daily.thursday.slice(0, 56);
+    const friday = daily.friday.slice(0, 56);
+    const saturday = daily.saturday.slice(0, 56);
+
+    const getStartedWith = ({ numbers }) => {
+      const startedWithCount = {};
+
+      numbers.map((number, index) => {
+        const firstNumber = number[0];
+
+        if (startedWithCount[firstNumber]) {
+          startedWithCount[firstNumber].count++;
+        } else {
+          startedWithCount[firstNumber] = { count: 1 };
+        }
+      });
+
+      return startedWithCount;
+    };
+
+    getStartedWith({ numbers: sunday });
+
+    const getFirstTwoRepeated = ({ numbers }) => {};
+
+    const newDaily = {
+      sunday: {
+        numbers: sunday,
+        startedWith: getStartedWith({ numbers: sunday }),
+      },
+      monday: {
+        numbers: monday,
+        startedWith: getStartedWith({ numbers: monday }),
+      },
+      tuesday: {
+        numbers: tuesday,
+        startedWith: getStartedWith({ numbers: tuesday }),
+      },
+      wednesday: {
+        numbers: wednesday,
+        startedWith: getStartedWith({ numbers: wednesday }),
+      },
+      thursday: {
+        numbers: thursday,
+        startedWith: getStartedWith({ numbers: thursday }),
+      },
+      friday: {
+        numbers: friday,
+        startedWith: getStartedWith({ numbers: friday }),
+      },
+      saturday: {
+        numbers: saturday,
+        startedWith: getStartedWith({ numbers: saturday }),
+      },
+    };
+
+    res.status(200).send({ data: newDaily });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("error");
+  }
+});
+
+router.get("/daily/all", async (req, res) => {
+  try {
+    const lastUpdated = returnlastUpdated();
+    const dateNow = new Date().getTime() / 1000;
+    const difference = dateNow - lastUpdated.lastUpdated;
+
+    // six hours
+    if (difference > 21600) {
+      await updateData({ forceUpdate: true });
+    } else {
+      await updateData({ forceUpdate: false });
+    }
+
+    const daily = JSON.parse(fs.readFileSync("day_of_week.json", "utf-8"));
+
+    res.status(200).send({ data: daily });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("error");
+  }
+});
+
 const returnlastUpdated = () => {
   try {
     let jsonData = JSON.parse(fs.readFileSync("lastUpdated.json", "utf-8"));
