@@ -6,7 +6,7 @@ const axios = require("axios");
 const updateData = require("../updateData");
 const fs = require("fs");
 
-module.exports = router.post("/today", async (req, res) => {
+module.exports = router.get("/today", async (req, res) => {
   try {
     await axios
       .get("https://www.flalottery.com/pick3")
@@ -85,7 +85,7 @@ module.exports = router.post("/today", async (req, res) => {
   }
 });
 
-module.exports = router.post("/yesterday", async (req, res) => {
+module.exports = router.get("/yesterday", async (req, res) => {
   try {
     const lastUpdated = returnlastUpdated();
     const dateNow = new Date().getTime() / 1000;

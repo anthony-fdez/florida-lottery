@@ -2,10 +2,9 @@ const fs = require("fs").promises;
 
 const loadData = require("./functions/loadData");
 const getStats = require("./functions/getStats");
-const getAverage = require("./functions/getAverage");
-const getMedian = require("./functions/getMedian");
 
 const getOldestNumbers = require("./functions/getOldestNumbers");
+const getByDayOfWeek = require("./functions/getByDayOfWeek");
 
 const updateData = async ({ forceUpdate }) => {
   if (forceUpdate) {
@@ -14,10 +13,12 @@ const updateData = async ({ forceUpdate }) => {
     const allDates = await loadData({ update: true });
     const sortedNumbers = await getStats({ data: allDates });
     await getOldestNumbers({ data: sortedNumbers });
+    await getByDayOfWeek({ data: allDates });
   } else {
     const allDates = await loadData({ update: false });
     const sortedNumbers = await getStats({ data: allDates });
     await getOldestNumbers({ data: sortedNumbers });
+    await getByDayOfWeek({ data: allDates });
   }
 };
 
