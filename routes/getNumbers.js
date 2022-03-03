@@ -65,6 +65,7 @@ module.exports = router.get("/today", async (req, res) => {
 
         const d = new Date();
         convertTZ(d, "America/New_York");
+        d.setHours(d.getHours() - 5);
 
         const timeNow = d.getTime() / 1000;
 
@@ -158,8 +159,6 @@ const returnTimeDay = () => {
   day.setMinutes(30);
   day.setSeconds(0);
   day.setMilliseconds(0);
-
-  console.log("Day: " + day);
 
   return day.getTime() / 1000;
 };
