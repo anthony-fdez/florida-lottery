@@ -63,7 +63,11 @@ module.exports = router.get("/today", async (req, res) => {
           .trim()
           .slice(1, 2);
 
-        const timeNow = new Date().getTime() / 1000;
+        const d = new Date();
+        convertTZ(d, "America/New_York");
+
+        const timeNow = d.getTime() / 1000;
+
         const day = returnTimeDay();
         const night = returnTimeNight();
 
