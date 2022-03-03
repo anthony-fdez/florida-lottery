@@ -77,6 +77,11 @@ module.exports = router.get("/today", async (req, res) => {
             day: { number: `${day1}${day2}${day3}`, fb: dayFb },
             night: { number: null, fb: null },
           });
+        } else {
+          return res.status(200).send({
+            day: { number: null, fb: null },
+            night: { number: null, fb: null },
+          });
         }
       });
   } catch (err) {
@@ -132,7 +137,7 @@ const returnlastUpdated = () => {
 };
 
 const returnTimeDay = () => {
-  var day = new Date();
+  const day = new Date();
   day.setDate(day.getDate());
   day.setHours(13);
   day.setMinutes(30);
@@ -143,7 +148,7 @@ const returnTimeDay = () => {
 };
 
 const returnTimeNight = () => {
-  var night = new Date();
+  const night = new Date();
   night.setDate(night.getDate());
   night.setHours(21);
   night.setMinutes(45);

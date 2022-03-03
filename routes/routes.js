@@ -150,24 +150,30 @@ router.get("/daily/year", async (req, res) => {
     const saturday = daily.saturday.slice(0, 56);
 
     const getStartedWith = ({ numbers }) => {
-      const startedWithCount = {};
+      const startedWithCount = [];
 
       numbers.map((number, index) => {
-        const firstNumber = number[0];
+        const firstNumber = number.slice(0, 1);
 
-        if (startedWithCount[firstNumber]) {
-          startedWithCount[firstNumber].count++;
+        const numberIndex = startedWithCount.findIndex(
+          (e) => e.number === firstNumber
+        );
+
+        if (numberIndex === -1) {
+          startedWithCount.push({ number: firstNumber, count: 1 });
         } else {
-          startedWithCount[firstNumber] = { count: 1 };
+          startedWithCount[numberIndex].count++;
         }
       });
 
-      return startedWithCount;
+      const sorted = startedWithCount.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return parseInt(a.number) - parseInt(b.number);
+      });
+
+      return sorted;
     };
-
-    getStartedWith({ numbers: sunday });
-
-    const getFirstTwoRepeated = ({ numbers }) => {};
 
     const newDaily = {
       sunday: {
