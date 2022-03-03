@@ -138,9 +138,9 @@ const returnlastUpdated = () => {
 
 const returnTimeDay = () => {
   const d = new Date();
-  d.toLocaleString("en-US", { timeZone: "America/New_York" });
+  convertTZ(d, "America/New_York");
 
-  const day = new Date(d);
+  const day = d;
 
   day.setDate(day.getDate());
   day.setHours(13);
@@ -148,14 +148,14 @@ const returnTimeDay = () => {
   day.setSeconds(0);
   day.setMilliseconds(0);
 
-  return new Date(day).getTime() / 1000;
+  return day.getTime() / 1000;
 };
 
 const returnTimeNight = () => {
-  const n = new Date();
-  n.toLocaleString("en-US", { timeZone: "America/New_York" });
+  const d = new Date();
+  convertTZ(d, "America/New_York");
 
-  const night = new Date(n);
+  const night = d;
 
   night.setDate(night.getDate());
   night.setHours(21);
@@ -163,5 +163,13 @@ const returnTimeNight = () => {
   night.setSeconds(0);
   night.setMilliseconds(0);
 
-  return new Date(night).getTime() / 1000;
+  return night.getTime() / 1000;
 };
+
+function convertTZ(date, tzString) {
+  return new Date(
+    (typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {
+      timeZone: tzString,
+    })
+  );
+}
