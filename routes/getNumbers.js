@@ -137,7 +137,11 @@ const returnlastUpdated = () => {
 };
 
 const returnTimeDay = () => {
-  const day = new Date();
+  const d = new Date();
+  d.toLocaleString("en-US", { timeZone: "America/New_York" });
+
+  const day = new Date(d);
+
   day.setDate(day.getDate());
   day.setHours(13);
   day.setMinutes(30);
@@ -148,7 +152,11 @@ const returnTimeDay = () => {
 };
 
 const returnTimeNight = () => {
-  const night = new Date();
+  const n = new Date();
+  n.toLocaleString("en-US", { timeZone: "America/New_York" });
+
+  const night = new Date(n);
+
   night.setDate(night.getDate());
   night.setHours(21);
   night.setMinutes(45);
