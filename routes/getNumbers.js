@@ -71,6 +71,8 @@ module.exports = router.get("/today", async (req, res) => {
         const day = returnTimeDay();
         const night = returnTimeNight();
 
+        console.log("Today: : " + timeNow);
+
         console.log("\n\n\n\n");
         console.log(timeNow);
         console.log(day);
@@ -171,6 +173,8 @@ const returnTimeNight = () => {
   night.setMinutes(45);
   night.setSeconds(0);
   night.setMilliseconds(0);
+
+  console.log("Day: " + night);
 
   return night.getTime() / 1000;
 };
